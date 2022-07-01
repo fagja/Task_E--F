@@ -1,1 +1,15 @@
-a
+import time
+import requests
+
+# トップストーリーのidをゲット
+
+response = requests.get(
+    "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty"
+)
+dic = response.json()
+for number in range(0, 3):
+    ids = dic[number]
+    topstory_links = requests.get(f"https://hacker-news.firebaseio.com/v0/item/{ids}.json?print=pretty")
+    news_info = topstory_links.json()
+    time.sleep(1)
+    print("'title': '", news_info.get("title"), "', 'Link':", news_info.get("url", None))
